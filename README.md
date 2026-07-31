@@ -110,7 +110,7 @@ python main.py
 ---
 
 ## 📁 Struktur Direktori
-``
+```
 snake-game/
 │
 ├── main.py # Entry point aplikasi, mengatur game loop dan logika utama
@@ -119,7 +119,7 @@ snake-game/
 ├── scoreboard.py # Class Score — logika perhitungan skor dan high score
 ├── data.txt # File penyimpanan nilai high score secara persisten
 └── README.md # Dokumentasi proyek
-``
+```
 
 ---
 
