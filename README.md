@@ -1,6 +1,6 @@
 # 🐍 Snake Game
 
-![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![Turtle](https://img.shields.io/badge/Library-Turtle-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
@@ -27,7 +27,7 @@ Sebuah implementasi klasik permainan **Snake (Ular)** yang dibangun menggunakan 
 
 | Kategori | Teknologi |
 |---|---|
-| Bahasa Pemrograman | Python 3.x |
+| Bahasa Pemrograman | Python 3.12 |
 | Library Grafis | `turtle` (Standard Library) |
 | Library Utilitas | `random`, `time` (Standard Library) |
 | Penyimpanan Data | File teks lokal (`data.txt`) |
@@ -41,7 +41,7 @@ Sebuah implementasi klasik permainan **Snake (Ular)** yang dibangun menggunakan 
 
 Sebelum menjalankan proyek ini, pastikan sistem Anda memiliki:
 
-- **Python 3.6 atau lebih baru** terinstal.
+- **Python 3.12 atau lebih baru** terinstal.
 - Modul **Tkinter** aktif pada instalasi Python (dibutuhkan oleh `turtle` untuk membuka jendela GUI).
   - Di Linux (Debian/Ubuntu), instal dengan: `sudo apt-get install python3-tk`
   - Di Windows/macOS, Tkinter biasanya sudah terpasang secara default bersama Python.
