@@ -1,139 +1,137 @@
-# 🐍 Snake Game
+# 🐍 Neon Snake - Pygame Edition
 
-![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-![Turtle](https://img.shields.io/badge/Library-Turtle-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
-
-Sebuah implementasi klasik permainan **Snake (Ular)** yang dibangun menggunakan modul bawaan Python, **Turtle Graphics**. Proyek ini menyelesaikan masalah kebutuhan akan contoh implementasi Object-Oriented Programming (OOP) sederhana dalam membangun game 2D interaktif tanpa dependensi eksternal, lengkap dengan sistem skor persisten (high score) yang tersimpan di penyimpanan lokal.
+> Game Snake klasik yang dibuat ulang menggunakan **Pygame** dengan tampilan modern, efek visual menarik, dan fitur gameplay yang diperkaya.
 
 ---
 
-## ✨ Fitur Utama
+## 1. Deskripsi Singkat Project
 
-- **Kontrol Arah Responsif** — Kendalikan ular menggunakan tombol panah (Up, Down, Left, Right) pada keyboard.
-- **Mekanisme Pertumbuhan Ular** — Badan ular akan bertambah panjang secara dinamis setiap kali berhasil memakan makanan.
-- **Deteksi Tabrakan (Collision Detection)**:
-  - Deteksi tabrakan dengan dinding batas layar.
-  - Deteksi tabrakan ular dengan badan/ekornya sendiri.
-- **Sistem Skor & High Score** — Skor bertambah otomatis saat memakan makanan, dan skor tertinggi (*high score*) disimpan secara persisten ke dalam file `data.txt`.
-- **Reset Otomatis** — Permainan akan otomatis mereset posisi ular dan skor saat terjadi tabrakan (game over), tanpa perlu menutup aplikasi.
-- **Posisi Makanan Acak** — Makanan akan muncul di posisi acak dalam area permainan setelah dimakan.
-- **Rendering Ringan** — Menggunakan `screen.tracer(0)` dan `screen.update()` manual untuk animasi yang halus dan efisien.
+**Neon Snake** adalah game arcade klasik berbasis Python yang mengadaptasi konsep permainan ular legendaris dengan sentuhan visual modern. Dibangun menggunakan library **Pygame**, game ini menawarkan pengalaman bermain yang responsif dengan tampilan **tema gelap neon**, efek partikel, sistem level, dan power-up spesial.
+
+Project ini merupakan hasil konversi dari library **Turtle Graphics** ke **Pygame**, dengan penambahan berbagai fitur modern untuk meningkatkan kualitas gameplay dan estetika visual.
 
 ---
 
-## 🛠️ Teknologi yang Digunakan (Tech Stack)
+## 2. Fitur Project
 
-| Kategori | Teknologi |
-|---|---|
-| Bahasa Pemrograman | Python 3.12 |
-| Library Grafis | `turtle` (Standard Library) |
-| Library Utilitas | `random`, `time` (Standard Library) |
-| Penyimpanan Data | File teks lokal (`data.txt`) |
-| Paradigma | Object-Oriented Programming (OOP) |
-
-> **Catatan:** Proyek ini **tidak memerlukan library eksternal** (tidak ada `requirements.txt`) karena seluruh dependensi (`turtle`, `random`, `time`) merupakan bagian dari Python Standard Library.
-
----
-
-## 📋 Prasyarat (Prerequisites)
-
-Sebelum menjalankan proyek ini, pastikan sistem Anda memiliki:
-
-- **Python 3.12 atau lebih baru** terinstal.
-- Modul **Tkinter** aktif pada instalasi Python (dibutuhkan oleh `turtle` untuk membuka jendela GUI).
-  - Di Linux (Debian/Ubuntu), instal dengan: `sudo apt-get install python3-tk`
-  - Di Windows/macOS, Tkinter biasanya sudah terpasang secara default bersama Python.
-- Editor teks atau IDE (opsional, misalnya VS Code, PyCharm).
+| Fitur | Penjelasan |
+|-------|------------|
+| 🎮 **Kontrol Responsif** | Gerakan ular menggunakan Arrow Keys atau WASD dengan deteksi arah balik yang otomatis dicegah |
+| 🟢 **Makanan Normal** | Makanan merah coral standar, bernilai +1 poin |
+| 🟡 **Makanan Emas (Power-up)** | Muncul dengan probabilitas 10%, bernilai +5 poin dengan efek ledakan partikel dan screen shake |
+| 🔵 **Makanan Biru (Slow Motion)** | Muncul dengan probabilitas 10%, bernilai +2 poin dan mengaktifkan efek gerak lambat selama 5 detik |
+| ✨ **Efek Partikel** | Ledakan partikel saat ular memakan makanan dengan warna yang sesuai tipe makanan |
+| 📳 **Screen Shake** | Efek getaran layar saat game over atau memakan makanan emas |
+| 🌟 **Neon Glow Effect** | Efek cahaya pada kepala ular dan makanan untuk tampilan futuristik |
+| 👁️ **Mata Ular Animasi** | Mata pada kepala ular yang mengikuti arah gerakan secara real-time |
+| 📈 **Sistem Level** | Kecepatan ular bertambah otomatis setiap kelipatan 5 poin |
+| 🏆 **High Score Persistence** | Skor tertinggi tersimpan secara otomatis ke file `data.txt` |
+| 🖥️ **Start Menu Interaktif** | Menu utama dengan animasi partikel background, tombol hover effect, dan shortcut keyboard |
+| ⏸️ **Pause ke Menu** | Tekan ESC saat bermain untuk kembali ke menu utama tanpa menutup game |
+| 🎨 **Grid Background** | Latar belakang grid transparan dengan tema warna gelap neon |
 
 ---
 
-## ⚙️ Instalasi
+## 3. Tech Stack
 
-1. **Clone repositori** ini ke komputer lokal Anda:
-```bash
-   git clone https://github.com/username/snake-game.git
-   cd snake-game
-```
+Berikut adalah teknologi dan library yang harus dipersiapkan untuk menjalankan project ini:
 
-2. **(Opsional) Buat virtual environment** untuk isolasi proyek:
-```bash
-   python -m venv venv
-   source venv/bin/activate   # Untuk Linux/macOS
-   venv\Scripts\activate      # Untuk Windows
-```
+| Komponen | Versi Minimum | Keterangan |
+|----------|---------------|------------|
+| **Python** | 3.8+ | Bahasa pemrograman utama |
+| **Pygame** | 2.1.0+ | Library untuk grafis, audio, dan event handling |
+| **Math** | Built-in | Modul bawaan Python untuk fungsi trigonometri |
+| **Random** | Built-in | Modul bawaan Python untuk randomisasi posisi makanan |
+| **OS** | Built-in | Modul bawaan Python untuk operasi file (high score) |
 
-3. **Instal dependensi** — tidak ada library eksternal yang perlu diinstal via `pip`, karena semua modul yang digunakan (`turtle`, `random`, `time`) sudah tersedia bawaan Python.
-
-4. **Siapkan file penyimpanan skor** — pastikan file `data.txt` tersedia pada direktori proyek. Jika belum ada, buat secara manual dengan isi awal `0`:
-```bash
-   echo "0" > data.txt
-```
-
-5. **Sesuaikan path penyimpanan skor** — pada file `scoreboard.py`, path menuju `data.txt` saat ini masih menggunakan path absolut (hardcoded):
-```python
-   with open("/home/guebanget/Documents/Python/Codingan Python Project/data.txt") as file:
-```
-   Disarankan untuk mengubahnya menjadi path relatif agar proyek portable di komputer lain, contoh:
-```python
-   with open("data.txt") as file:
-```
-
----
-
-## ▶️ Cara Penggunaan (Usage)
-
-Jalankan aplikasi melalui terminal/command prompt dengan perintah berikut dari direktori root proyek:
+### Instalasi Dependensi
 
 ```bash
+# Pastikan Python sudah terinstall
+python --version
+
+# Install Pygame
+pip install pygame
+```
+
+---
+
+## 4. Cara Menjalankan Project
+
+### Langkah 1: Clone Repository
+
+```bash
+# Clone repository ke lokal
+git clone https://github.com/username/neon-snake-pygame.git
+
+# Masuk ke direktori project
+cd neon-snake-pygame
+```
+
+### Langkah 2: Install Dependensi
+
+```bash
+# Install library Pygame
+pip install pygame
+```
+
+### Langkah 3: Jalankan Game
+
+```bash
+# Jalankan file utama
 python main.py
 ```
 
-**Kontrol permainan:**
+### Kontrol Bermain
 
-| Tombol | Aksi |
-|---|---|
-| `↑` (Arrow Up) | Menggerakkan ular ke atas |
-| `↓` (Arrow Down) | Menggerakkan ular ke bawah |
-| `←` (Arrow Left) | Menggerakkan ular ke kiri |
-| `→` (Arrow Right) | Menggerakkan ular ke kanan |
-
-**Contoh alur permainan:**
-1. Jendela game berwarna hitam berukuran 600x600 akan terbuka.
-2. Ular (kotak putih) akan bergerak otomatis ke arah kanan.
-3. Gunakan tombol panah untuk mengarahkan ular menuju makanan (lingkaran abu-abu).
-4. Setiap makanan yang dimakan akan menambah skor dan memperpanjang badan ular.
-5. Jika ular menabrak dinding atau badannya sendiri, skor akan direset dan permainan dimulai ulang secara otomatis.
-6. Klik pada jendela game untuk keluar dari aplikasi.
+| Tombol | Fungsi |
+|--------|--------|
+| `↑` / `W` | Gerak ke atas |
+| `↓` / `S` | Gerak ke bawah |
+| `←` / `A` | Gerak ke kiri |
+| `→` / `D` | Gerak ke kanan |
+| `ENTER` / `SPACE` | Mulai game dari menu / Restart saat Game Over |
+| `ESC` | Kembali ke menu utama / Keluar dari menu |
 
 ---
 
-## 📁 Struktur Direktori
+## 5. Struktur Direktori
+
 ```
-snake-game/
+neon-snake-pygame/
 │
-├── main.py # Entry point aplikasi, mengatur game loop dan logika utama
-├── snake.py # Class Snake — logika pergerakan, penambahan badan, dan reset ular
-├── food.py # Class Food — logika penempatan dan refresh posisi makanan
-├── scoreboard.py # Class Score — logika perhitungan skor dan high score
-├── data.txt # File penyimpanan nilai high score secara persisten
-└── README.md # Dokumentasi proyek
+├── main.py              # Entry point game, mengatur game loop dan state
+├── menu.py              # Start menu dengan animasi dan tombol interaktif
+├── snake.py             # Logika ular: gerakan, pertumbuhan, collision detection
+├── food.py              # Logika makanan: spawn, tipe makanan, animasi pulse
+├── scoreboard.py        # Manajemen skor, high score, dan level progression
+├── particle.py          # Sistem efek partikel dan screen shake
+├── settings.py          # Konfigurasi warna, ukuran, font, dan konstanta game
+├── data.txt             # File penyimpanan high score (auto-generated)
+│
+└── README.md            # Dokumentasi project (file ini)
 ```
+
+### Penjelasan File
+
+- **`main.py`** — Menginisialisasi Pygame, menangani game loop utama, event handling, dan mengoordinasikan semua komponen game (snake, food, scoreboard, particle).
+- **`menu.py`** — Menampilkan layar start menu sebelum game dimulai. Berisi animasi partikel background, judul dengan efek glow, tombol interaktif, dan shortcut keyboard.
+- **`snake.py`** — Mengatur seluruh logika ular: inisialisasi tubuh, pergerakan segmen, deteksi tabrakan (dinding & ekor sendiri), pertumbuhan, dan rendering visual dengan efek gradient.
+- **`food.py`** — Mengatur spawn makanan acak, 3 tipe makanan (normal, gold, slow), animasi pulse (membesar-mengecil), dan pemberian skor sesuai tipe.
+- **`scoreboard.py`** — Mengelola skor saat ini, high score (read/write ke `data.txt`), penghitungan level, dan tampilan panel skor serta layar Game Over.
+- **`particle.py`** — Sistem partikel untuk efek ledakan saat memakan makanan. Juga mengatur efek screen shake saat terjadi event penting.
+- **`settings.py`** — Pusat konfigurasi: ukuran layar, ukuran grid, warna tema neon, font, dan kecepatan dasar game.
+- **`data.txt`** — File teks sederhana yang menyimpan nilai high score tertinggi. File ini dibuat otomatis saat pertama kali bermain.
 
 ---
 
-## 🤝 Kontribusi & Lisensi
+## 📝 Catatan Tambahan
 
-### Kontribusi
-Kontribusi sangat terbuka! Jika Anda ingin berkontribusi:
-1. Fork repositori ini.
-2. Buat branch fitur baru (`git checkout -b fitur-baru`).
-3. Commit perubahan Anda (`git commit -m 'Menambahkan fitur baru'`).
-4. Push ke branch (`git push origin fitur-baru`).
-5. Buka Pull Request.
+- Game menggunakan resolusi **600×650 pixel** (600×600 area permainan + 50 pixel panel skor di atas).
+- Grid permainan berukuran **30×30 sel** dengan ukuran sel 20×20 pixel.
+- File `data.txt` akan dibuat secara otomatis di direktori root project saat pertama kali game dijalankan dan skor tercapai.
+- Tidak diperlukan asset eksternal (gambar/audio) karena seluruh visual dibuat secara procedural menggunakan Pygame.
 
-Silakan laporkan bug atau ajukan permintaan fitur melalui halaman **Issues**.
+---
 
-### Lisensi
-Proyek ini dilisensikan di bawah **MIT License**. Silakan gunakan, modifikasi, dan distribusikan sesuai kebutuhan Anda.
+<p align="center">Dibuat dengan ❤️ menggunakan Python & Pygame</p>
