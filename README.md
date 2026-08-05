@@ -1,8 +1,5 @@
 # 🐍 Neon Snake - Pygame Edition
 
-> Game Snake klasik yang dibuat ulang menggunakan **Pygame** dengan tampilan modern, efek visual menarik, dan fitur gameplay yang diperkaya.
-
----
 
 ## 1. Deskripsi Singkat Project
 
