@@ -1,41 +1,72 @@
-from turtle import Turtle
+import pygame
+import os
+from settings import *
 
-ALIGNMENT = "center"
-FONT = ("Arial",20,"normal")
-FONT_GAMEOVER = ("Arial",25,"bold")
-class Score(Turtle):
+DATA_FILE = "data.txt"
+
+class Scoreboard:
     def __init__(self):
-        super().__init__()
-        with open("/home/guebanget/Documents/Python/Codingan Python Project/data.txt") as file:
-            self.high_score = int(file.read())
         self.score = 0
-        self.color("white")
-        self.penup()
-        self.goto(0,270)
-        self.update_scorebord()
-        self.hideturtle()
+        self.high_score = self._load_high_score()
+        self.level = 1
         
-
-    def update_scorebord(self):
-        self.clear()
-        self.write(arg=f"Score = {self.score}  High Score = {self.high_score}",align=ALIGNMENT,font=FONT)
-
-    # def game_over(self):
-    #     self.goto(0,0)
-    #     self.write(arg="GAME OVER",align=ALIGNMENT,font=FONT_GAMEOVER)
-
-
-    def increase_score(self):
-        self.score+=1
-        self.update_scorebord()
+    def _load_high_score(self):
+        if os.path.exists(DATA_FILE):
+            try:
+                with open(DATA_FILE, "r") as f:
+                    return int(f.read().strip())
+            except:
+                return 0
+        return 0
         
-    def reset_score(self):
+    def save_high_score(self):
         if self.score > self.high_score:
-            with open("/home/guebanget/Documents/Python/Codingan Python Project/data.txt", mode="w") as file:
-                file.write(str(self.score))
             self.high_score = self.score
-        self.score = 0
-        self.update_scorebord()
+            with open(DATA_FILE, "w") as f:
+                f.write(str(self.high_score))
+                
+    def add_score(self, value):
+        self.score += value
+        # Naik level setiap 5 poin
+        self.level = 1 + self.score // 5
         
-    
-       
+    def reset(self):
+        self.save_high_score()
+        self.score = 0
+        self.level = 1
+        
+    def get_speed(self):
+        """Kecepatan bertambah tiap level"""
+        speed = BASE_SPEED - (self.level - 1) * 8
+        return max(MIN_SPEED, speed)
+        
+    def draw(self, surface):
+        # Panel skor di atas
+        panel = pygame.Rect(0, 0, SCREEN_WIDTH, 50)
+        pygame.draw.rect(surface, (20, 20, 40), panel)
+        pygame.draw.line(surface, COLOR_GRID, (0, 50), (SCREEN_WIDTH, 50), 2)
+        
+        # Teks skor
+        score_text = FONT_MEDIUM.render(f"SCORE: {self.score}", True, COLOR_TEXT)
+        high_text = FONT_SMALL.render(f"BEST: {self.high_score}", True, (180, 180, 180))
+        level_text = FONT_MEDIUM.render(f"LEVEL: {self.level}", True, COLOR_FOOD_GOLD)
+        
+        surface.blit(score_text, (20, 12))
+        surface.blit(high_text, (20, 32))
+        surface.blit(level_text, (SCREEN_WIDTH - 120, 12))
+        
+    def draw_game_over(self, surface):
+        overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        surface.blit(overlay, (0, 0))
+        
+        texts = [
+            (FONT_LARGE.render("GAME OVER", True, COLOR_FOOD_NORMAL), -40),
+            (FONT_MEDIUM.render(f"Score: {self.score}", True, COLOR_TEXT), 10),
+            (FONT_SMALL.render("Press SPACE to restart", True, (200, 200, 200)), 50),
+            (FONT_SMALL.render("Press ESC to quit", True, (150, 150, 150)), 75)
+        ]
+        
+        for text, offset in texts:
+            rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + offset))
+            surface.blit(text, rect)

@@ -1,80 +1,109 @@
-from turtle import Turtle
+import pygame
+from settings import *
 
-UP=90
-DOWN=270
-RIGHT=0
-LEFT=180
-
-
-MOVE_DISTANCE = 20  # nilai pada konstan tidak akan bisa diubah
 class Snake:
     def __init__(self):
-        self.segments = []
-        self.create_a_snake() # supaya function create_a_snake bisa langsung dijalankan ketika class Snake dipanggil
-        self.head =self.segments[0]
+        self.reset()
         
-    # function create_a_snake berfungsi untuk membuat kepala,badan dan ekor ular diawal game 
-    def create_a_snake(self):
-        a = 0
-        # _ pada for loop berfungsi untuk memberitahu pembaca bahwa nilai iterasi tidak penting
-        for _ in range(3):
-            snake = Turtle()
-            snake.shape("square")
-            snake.color("white")
-            snake.penup()
-            snake.goto(a, 0)
-            self.segments.append(snake)
-            a -= 20
-
-    def add_tail(self):
-        snake = Turtle()
-        snake.shape("square")
-        snake.color("white")
-        snake.penup()
-        self.segments.append(snake)
-        x=self.segments[-1].xcor()
-        y=self.segments[-1].ycor()
-        self.segments[-1].goto(x,y)
-            
-    # function move berfungsi menggerakkan seluruh bagian tubuh ular
-    def move(self): 
-        for seg_num in range(len(self.segments)-1,0,-1):
-            # xcor dan ycor berfungsi untuk mendapatkan koordinat
-            new_x = self.segments[seg_num-1].xcor()
-            new_y = self.segments[seg_num-1].ycor()
-            self.segments[seg_num].goto(new_x,new_y)
-        self.head.forward(MOVE_DISTANCE)
-        
-    
     def reset(self):
-        for seg in self.segments:
-            seg.goto(1000,1000)
-        self.segments.clear()
-        self.create_a_snake()
-        self.head =self.segments[0]
-           
-    def up(self):
-        if self.head.heading() != DOWN:
-            self.head.setheading(UP)
-
-    def down(self):
-        if self.head.heading() != UP:
-            self.head.setheading(DOWN)
-            
-    def right(self):
-        if self.head.heading()!=LEFT:
-            self.head.setheading(RIGHT)
-            
-    def left(self):
-        if self.head.heading()!=RIGHT:
-            self.head.setheading(LEFT)
+        # Posisi awal di tengah
+        start_x = GRID_WIDTH // 2
+        start_y = GRID_HEIGHT // 2
+        self.body = [
+            (start_x, start_y),
+            (start_x - 1, start_y),
+            (start_x - 2, start_y)
+        ]
+        self.direction = (1, 0)  # Kanan
+        self.next_direction = (1, 0)
+        self.grow = False
+        self.alive = True
         
-    
-
-
-    
-    
-    
+    def change_direction(self, key):
+        """Ubah arah berdasarkan input keyboard"""
+        if key == pygame.K_UP or key == pygame.K_w:
+            if self.direction != (0, 1):  # Cegah balik arah
+                self.next_direction = (0, -1)
+        elif key == pygame.K_DOWN or key == pygame.K_s:
+            if self.direction != (0, -1):
+                self.next_direction = (0, 1)
+        elif key == pygame.K_LEFT or key == pygame.K_a:
+            if self.direction != (1, 0):
+                self.next_direction = (-1, 0)
+        elif key == pygame.K_RIGHT or key == pygame.K_d:
+            if self.direction != (-1, 0):
+                self.next_direction = (1, 0)
+                
+    def move(self):
+        """Gerakkan ular satu langkah"""
+        self.direction = self.next_direction
+        head_x, head_y = self.body[0]
+        new_head = (head_x + self.direction[0], head_y + self.direction[1])
         
-    
-    
+        # Cek tabrakan dinding
+        if (new_head[0] < 0 or new_head[0] >= GRID_WIDTH or 
+            new_head[1] < 0 or new_head[1] >= GRID_HEIGHT):
+            self.alive = False
+            return
+            
+        # Cek tabrakan dengan badan sendiri
+        if new_head in self.body:
+            self.alive = False
+            return
+            
+        self.body.insert(0, new_head)
+        
+        if not self.grow:
+            self.body.pop()
+        else:
+            self.grow = False
+            
+    def grow_snake(self):
+        self.grow = True
+        
+    def draw(self, surface):
+        """Gambar ular dengan efek glow"""
+        for i, segment in enumerate(self.body):
+            x = segment[0] * CELL_SIZE
+            y = segment[1] * CELL_SIZE
+            
+            # Warna gradasi: kepala lebih terang
+            if i == 0:
+                color = COLOR_SNAKE_HEAD
+                # Glow effect untuk kepala
+                glow = pygame.Surface((CELL_SIZE + 6, CELL_SIZE + 6), pygame.SRCALPHA)
+                pygame.draw.rect(glow, (*COLOR_SNAKE_HEAD[:3], 80), 
+                               (0, 0, CELL_SIZE + 6, CELL_SIZE + 6), border_radius=6)
+                surface.blit(glow, (x - 3, y - 3))
+            else:
+                # Badan memudar ke belakang
+                fade = max(0.4, 1 - (i / len(self.body)) * 0.6)
+                color = tuple(int(c * fade) for c in COLOR_SNAKE_BODY)
+            
+            # Gambar segmen
+            rect = pygame.Rect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE - 2)
+            pygame.draw.rect(surface, color, rect, border_radius=5)
+            pygame.draw.rect(surface, COLOR_SNAKE_OUTLINE, rect, width=1, border_radius=5)
+            
+            # Mata pada kepala
+            if i == 0:
+                self._draw_eyes(surface, x, y)
+                
+    def _draw_eyes(self, surface, x, y):
+        """Gambar mata ular mengikuti arah"""
+        eye_size = 4
+        offset = 5
+        cx, cy = x + CELL_SIZE // 2, y + CELL_SIZE // 2
+        
+        if self.direction == (1, 0):  # Kanan
+            eyes = [(cx + 2, cy - offset), (cx + 2, cy + offset)]
+        elif self.direction == (-1, 0):  # Kiri
+            eyes = [(cx - 2, cy - offset), (cx - 2, cy + offset)]
+        elif self.direction == (0, -1):  # Atas
+            eyes = [(cx - offset, cy - 2), (cx + offset, cy - 2)]
+        else:  # Bawah
+            eyes = [(cx - offset, cy + 2), (cx + offset, cy + 2)]
+            
+        for ex, ey in eyes:
+            pygame.draw.circle(surface, COLOR_HIGHLIGHT, (ex, ey), eye_size)
+            pygame.draw.circle(surface, (0, 0, 0), (ex, ey), eye_size // 2)
