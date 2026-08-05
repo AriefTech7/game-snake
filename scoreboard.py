@@ -48,11 +48,11 @@ class Scoreboard:
         
         # Teks skor
         score_text = FONT_MEDIUM.render(f"SCORE: {self.score}", True, COLOR_TEXT)
-        high_text = FONT_SMALL.render(f"BEST: {self.high_score}", True, (180, 180, 180))
+        high_text = FONT_MEDIUM.render(f"BEST: {self.high_score}", True, (180, 180, 180))
         level_text = FONT_MEDIUM.render(f"LEVEL: {self.level}", True, COLOR_FOOD_GOLD)
         
-        surface.blit(score_text, (20, 12))
-        surface.blit(high_text, (20, 32))
+        surface.blit(score_text, (20, 10))
+        surface.blit(high_text, (160, 10))
         surface.blit(level_text, (SCREEN_WIDTH - 120, 12))
         
     def draw_game_over(self, surface):
